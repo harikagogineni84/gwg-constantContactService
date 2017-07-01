@@ -3,6 +3,7 @@ package com.gwg.constantContact.signup.restService;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -25,8 +26,7 @@ import org.springframework.util.StringUtils;
 @Service
 public class RestServiceClientCaller {
 	private static final Logger logger = LogManager.getLogger(RestServiceClientCaller.class);
-	private static String API_TOKEN = ""; 
-	private static String ACCESS_TOKEN = "";
+	@Resource private CCAuthenticationProperties authenticationProperties;
 	private static String BEARER="Bearer ";
 	private static String BASE_URI = "https://api.constantcontact.com/v2";
 	
@@ -35,7 +35,7 @@ public class RestServiceClientCaller {
 		   T response = null;
 		   logger.error("started executing a post service with operation :-"+serviceAddress);
 			Client client = ClientBuilder.newClient(new ClientConfig().register(LoggingFilter.class));
-			WebTarget webTarget = client.target(BASE_URI).path(serviceAddress).queryParam("api_key", API_TOKEN);
+			WebTarget webTarget = client.target(BASE_URI).path(serviceAddress).queryParam("api_key", authenticationProperties.getApi_token());
 
 			if(!StringUtils.isEmpty(pathParams)){
 				webTarget.path(pathParams);
@@ -57,7 +57,7 @@ public class RestServiceClientCaller {
 	private MultivaluedMap<String, Object> buildHeader() {
 		MultivaluedMap<String, Object> header = new MultivaluedHashMap<String, Object>();
 		List<Object> headerValue = new ArrayList<>();
-		headerValue.add(BEARER+ACCESS_TOKEN);
+		headerValue.add(BEARER+authenticationProperties.getAccess_token());
 		header.put("Authorization", headerValue);
 		return header;
 	}

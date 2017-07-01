@@ -19,7 +19,8 @@ public class SignupService {
 	
 	@RequestMapping(value = "/pushBulkContacts", method=RequestMethod.GET)
 	public String pushBulkContacts() throws Exception{
-		logger.info("executed basic signupform");
+		logger.info("executed basic signupform1");
+		System.out.println("executed basic signupform2");
 
 		String signupInfo = buildMockBulkContacts();
 		
