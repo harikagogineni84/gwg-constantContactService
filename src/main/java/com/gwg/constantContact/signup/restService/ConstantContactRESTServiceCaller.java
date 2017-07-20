@@ -14,9 +14,16 @@ public class ConstantContactRESTServiceCaller {
 	@Resource private RestServiceClientCaller restServiceCaller;
 	
 	public String pushBulkContactsIntoConstantContact(String signupInfo) throws Exception{
+		
 		logger.info("started Executing ConstantContactRESTServiceCaller for signupform:--"+signupInfo);
-		String response  = restServiceCaller.post(new GenericType<>(String.class), "activities/addcontacts", signupInfo);
-		return response;
+		String response;
+		try {
+			response  = restServiceCaller.post(new GenericType<>(String.class), "activities/addcontacts", signupInfo);
+		} catch(Exception exception) {
+			RestServiceErrorHandlerController errorHandler = new RestServiceErrorHandlerController();
+			response = errorHandler.handleException(exception);
+		}
+			return response;
 	}
 
 }
