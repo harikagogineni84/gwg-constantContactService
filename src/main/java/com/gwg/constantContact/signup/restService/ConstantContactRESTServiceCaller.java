@@ -20,8 +20,9 @@ public class ConstantContactRESTServiceCaller {
 		try {
 			response  = restServiceCaller.post(new GenericType<>(String.class), "activities/addcontacts", signupInfo);
 		} catch(Exception exception) {
-			RestServiceErrorHandlerController errorHandler = new RestServiceErrorHandlerController();
-			response = errorHandler.handleException(exception);
+			RestServiceErrorHandler errorHandler = new RestServiceErrorHandler();
+			RestServiceError error = errorHandler.processException(exception);
+			response = errorHandler.convertToJSONResponse(error);
 		}
 			return response;
 	}
