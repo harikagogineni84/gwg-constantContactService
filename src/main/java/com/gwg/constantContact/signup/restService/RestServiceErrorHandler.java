@@ -2,8 +2,13 @@ package com.gwg.constantContact.signup.restService;
 
 import org.springframework.http.HttpStatus;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class RestServiceErrorHandler {
 
+	ObjectMapper objectMapper = new ObjectMapper();
+	
 	public RestServiceError processException(Exception exception) {
 		
 		RestServiceError error = retrieveMasheryException(exception);
@@ -36,6 +41,16 @@ public class RestServiceErrorHandler {
 	RestServiceError error = new RestServiceError();
 	error.setMasheryMessageText(exception.getMessage());
 		return error;
+	}
+
+	public String convertToJSONResponse(RestServiceError error) {
+		String json;
+		try {
+			json = objectMapper.writeValueAsString(error);
+		} catch (Exception e) {
+			return "Error: Malformed JSON Error object. Please contact system administrator.";
+		}
+		return json;
 	}
 
 }
