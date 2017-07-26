@@ -1,0 +1,17 @@
+# Constant Contact to SQL DB Service API
+
+This service exists as a middle tier to push an incoming payload from a SQL DB, to Constant contact's mashery API. The goal is to have a single addressable service which can take in a JSON string and allow an external contact management service to sync with Constant Contact.
+
+Constant contact's REST API is managed by Mashery, so any references to MAshery are in the context of passing data to Constant contact in that manner.
+
+## Installation Instructions
+
+You can install gwg-constantContactService by simply running clean install with maven. Once the artifacts for the project have been obtained, simply run the project as a Spring Boot app in Eclipse or Intellij IDEA, or by running
+
+`$  java -jar target/myproject-0.0.1-SNAPSHOT.jar`
+
+In your terminal.
+
+## Configuration
+
+The project also needs to be configured, or you will not be able to pass any data to a live Constant Contact account. You need to obtain both an API key and Access token from mashery/constant contact before you can proceed.
