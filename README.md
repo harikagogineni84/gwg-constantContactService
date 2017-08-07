@@ -18,3 +18,10 @@ The project also needs to be configured, or you will not be able to pass any dat
 
 [More information on obtaining your API key and Access token for your Account can be found here.](https://developer.constantcontact.com/api-keys.html)
 
+### Cliff notes version
+
+1. [sign up for Mashery](https://constantcontact.mashery.com/member/register) (the official API provider for constant contact)
+2. Generate your public and private key and store them somewhere safe
+3. [Enter your API key here and then choose "get access token"](https://constantcontact.mashery.com/io-docs)
+4. Log in using your **Constant Contact** credentials
+5. Obtain and save your Access token
