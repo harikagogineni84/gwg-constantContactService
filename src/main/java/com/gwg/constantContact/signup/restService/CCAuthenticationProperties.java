@@ -13,11 +13,11 @@ public class CCAuthenticationProperties {
 	private String api_token;
 	
 	public String getApi_token() {
-		return api_token;
+		return public_api_token;
 	}
 
-	public void setApi_token(String api_token) {
-		this.api_token = api_token;
+	public void setApi_token(String public_api_token) {
+		this.public_api_token = public_api_token;
 	}
 
 	public String getAccess_token() {
