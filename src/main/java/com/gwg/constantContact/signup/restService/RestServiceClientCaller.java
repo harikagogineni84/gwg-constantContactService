@@ -35,7 +35,7 @@ public class RestServiceClientCaller {
 		   T response = null;
 		   logger.error("started executing a post service with operation :-"+serviceAddress);
 			Client client = ClientBuilder.newClient(new ClientConfig().register(LoggingFilter.class));
-			WebTarget webTarget = client.target(BASE_URI).path(serviceAddress).queryParam("api_key", authenticationProperties.getApi_token());
+			WebTarget webTarget = client.target(BASE_URI).path(serviceAddress).queryParam("api_key", authenticationProperties.getPublicApiKey());
 
 			if(!StringUtils.isEmpty(pathParams)){
 				webTarget.path(pathParams);
@@ -57,7 +57,7 @@ public class RestServiceClientCaller {
 	private MultivaluedMap<String, Object> buildHeader() {
 		MultivaluedMap<String, Object> header = new MultivaluedHashMap<String, Object>();
 		List<Object> headerValue = new ArrayList<>();
-		headerValue.add(BEARER+authenticationProperties.getAccess_token());
+		headerValue.add(BEARER+authenticationProperties.getAccessToken());
 		header.put("Authorization", headerValue);
 		return header;
 	}
