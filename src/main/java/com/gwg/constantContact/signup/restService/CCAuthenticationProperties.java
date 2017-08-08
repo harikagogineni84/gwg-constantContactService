@@ -10,24 +10,32 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties("cc")
 public class CCAuthenticationProperties {
 	
-	private String api_token;
+	private String publicApiKey;
+	private String privateApiKey;
+	private String accessToken;
+
+
+	public String getAccessToken() {
+		return accessToken;
+	}
+
+	public void setAccessToken(String accessToken) {
+		this.accessToken = accessToken;
+	}
 	
-	public String getApi_token() {
-		return public_api_token;
+	public String getPublicApiKey() {
+		return publicApiKey;
 	}
 
-	public void setApi_token(String public_api_token) {
-		this.public_api_token = public_api_token;
+	public void setPublicApiKey(String publicApiKey) {
+		this.publicApiKey = publicApiKey;
+	}
+	
+	public String setPrivateApiKey() {
+		return privateApiKey;
 	}
 
-	public String getAccess_token() {
-		return access_token;
+	public void setPrivateApiKey(String accessToken) {
+		this.privateApiKey = privateApiKey;
 	}
-
-	public void setAccess_token(String access_token) {
-		this.access_token = access_token;
-	}
-
-	private String access_token;
-
 }
