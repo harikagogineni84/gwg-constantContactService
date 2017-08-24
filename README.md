@@ -25,3 +25,23 @@ The project also needs to be configured, or you will not be able to pass any dat
 3. [Enter your API key here and then choose "get access token"](https://constantcontact.mashery.com/io-docs)
 4. Log in using your **Constant Contact** credentials
 5. Obtain and save your Access token
+
+
+#PushBulkContact API:--
+
+###Request input:--
+
+{
+accessToken: "accessToken",
+bulkContacts: {<input as needed by constant contact bulk imports api>}
+}          
+
+###Response returned:--
+{
+"id": "a07e1il97e1hddalkpk",
+"type": "ADD_CONTACTS",
+"error_count": 0,
+"contact_count": 3
+}
+
+//NOTE::This can be tested using SOAPUI or RESTClient plugin using firefox/Chrome 

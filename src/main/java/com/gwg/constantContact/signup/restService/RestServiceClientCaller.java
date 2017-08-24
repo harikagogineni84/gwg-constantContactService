@@ -31,7 +31,7 @@ public class RestServiceClientCaller {
 	private static String BASE_URI = "https://api.constantcontact.com/v2";
 	
 	
-	public <T> T post(GenericType<T> responseType,String serviceAddress, String pathParams) throws Exception{
+	public <T> T post(GenericType<T> responseType,String serviceAddress, String pathParams, String accessToken) throws Exception{
 		   T response = null;
 		   logger.error("started executing a post service with operation :-"+serviceAddress);
 			Client client = ClientBuilder.newClient(new ClientConfig().register(LoggingFilter.class));
@@ -41,7 +41,7 @@ public class RestServiceClientCaller {
 				webTarget.path(pathParams);
 			}
 			
-			Response ccRestResponse = webTarget.request(MediaType.APPLICATION_JSON).headers(buildHeader()).post(Entity.json(pathParams));
+			Response ccRestResponse = webTarget.request(MediaType.APPLICATION_JSON).headers(buildHeader(accessToken)).post(Entity.json(pathParams));
 			
 			if(null!= ccRestResponse && Status.OK.getStatusCode() ==ccRestResponse.getStatus()){
 				response = ccRestResponse.readEntity(responseType);
@@ -54,10 +54,10 @@ public class RestServiceClientCaller {
 	}
 
 
-	private MultivaluedMap<String, Object> buildHeader() {
+	private MultivaluedMap<String, Object> buildHeader(String accessToken) {
 		MultivaluedMap<String, Object> header = new MultivaluedHashMap<String, Object>();
 		List<Object> headerValue = new ArrayList<>();
-		headerValue.add(BEARER+authenticationProperties.getAccessToken());
+		headerValue.add(BEARER+accessToken);
 		header.put("Authorization", headerValue);
 		return header;
 	}

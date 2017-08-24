@@ -8,17 +8,25 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 @Service
 public class ConstantContactRESTServiceCaller {
 	private static final Logger logger = LogManager.getLogger(ConstantContactRESTServiceCaller.class);
+	@Resource private ObjectMapper mapper;
 	@Resource private RestServiceClientCaller restServiceCaller;
 	
-	public String pushBulkContactsIntoConstantContact(String signupInfo) throws Exception{
-		
-		logger.info("started Executing ConstantContactRESTServiceCaller for signupform:--"+signupInfo);
+	public String pushBulkContactsIntoConstantContact(String pushBulkContacts) throws Exception{
 		String response;
+		
+		logger.info("started Executing ConstantContactRESTServiceCaller for signupform:--");
 		try {
-			response  = restServiceCaller.post(new GenericType<>(String.class), "activities/addcontacts", signupInfo);
+			JsonNode pushBulkContactsJsonNode = mapper.readTree(pushBulkContacts);
+			String signupInfo = pushBulkContactsJsonNode.get("bulkImportContacts").toString();
+			String accessToken = pushBulkContactsJsonNode.get("accessToken").asText();
+
+			response  = restServiceCaller.post(new GenericType<>(String.class), "activities/addcontacts", signupInfo, accessToken);
 		} catch(Exception exception) {
 			RestServiceErrorHandler errorHandler = new RestServiceErrorHandler();
 			RestServiceError error = errorHandler.processException(exception);
@@ -26,5 +34,4 @@ public class ConstantContactRESTServiceCaller {
 		}
 			return response;
 	}
-
 }
