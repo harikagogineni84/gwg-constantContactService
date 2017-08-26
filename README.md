@@ -26,25 +26,24 @@ The project also needs to be configured, or you will not be able to pass any dat
 4. Log in using your **Constant Contact** credentials
 5. Obtain and save your Access token
 
+## PushBulkContact API
 
-## PushBulkContact API:--
+### Request input
 
-### Request input:--
+    {
+    accessToken: "accessToken",
+    bulkContacts: {<input as needed by constant contact bulk imports api>}
+    }          
 
-{
-accessToken: "accessToken",
-bulkContacts: {<input as needed by constant contact bulk imports api>}
-}          
+### Response returned
+    {
+    "id": "a07e1il97e1hddalkpk",
+    "type": "ADD_CONTACTS",
+    "error_count": 0,
+    "contact_count": 3
+    }
 
-### Response returned:--
-{
-"id": "a07e1il97e1hddalkpk",
-"type": "ADD_CONTACTS",
-"error_count": 0,
-"contact_count": 3
-}
-
-//NOTE::This can be tested using SOAPUI or RESTClient plugin using firefox/Chrome 
+**Note** This can be tested using SOAPUI or RESTClient plugin using firefox/Chrome 
 
 ### Bulk Contact Payload Example
 
