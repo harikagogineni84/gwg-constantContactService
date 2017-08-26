@@ -27,16 +27,16 @@ The project also needs to be configured, or you will not be able to pass any dat
 5. Obtain and save your Access token
 
 
-#PushBulkContact API:--
+## PushBulkContact API:--
 
-###Request input:--
+### Request input:--
 
 {
 accessToken: "accessToken",
 bulkContacts: {<input as needed by constant contact bulk imports api>}
 }          
 
-###Response returned:--
+### Response returned:--
 {
 "id": "a07e1il97e1hddalkpk",
 "type": "ADD_CONTACTS",
@@ -45,3 +45,86 @@ bulkContacts: {<input as needed by constant contact bulk imports api>}
 }
 
 //NOTE::This can be tested using SOAPUI or RESTClient plugin using firefox/Chrome 
+
+### Bulk Contact Payload Example
+
+    {
+        "import_data": [{
+            "email_addresses": [
+                "user1@example.com"
+            ],
+            "first_name": "John",
+            "last_name": "Smith",
+            "birthday_month":"1",
+            "birthday_day":"25",
+            "anniversary":"03/12/2005",
+            "job_title": "",
+            "company_name": "My Company",
+            "home_phone": "5555551212",
+            "addresses": [{
+                "line1": "123 Partridge Lane",
+                "line2": "Apt. 3",
+                "city": "Anytown",
+                "address_type": "PERSONAL",
+                "state_code": "NH",
+                "country_code": "US",
+                "postal_code": "02145"
+            }]
+        },
+        {
+            "email_addresses": [
+                "user2@example.com"
+            ],
+            "first_name": "Jane",
+            "last_name": "Doe",
+            "job_title": "",
+            "company_name": "Acme, Inc.",
+            "home_phone": "5555551213",
+            "addresses": [{
+                "line1": "456 Jones Road",
+                "city": "AnyTownShip",
+                "address_type": "PERSONAL",
+                "state_code": "DE",
+                "country_code": "US",
+                "postal_code": "01234"
+            }],
+            "custom_fields": [{
+                "name": "Custom Field 6",
+                "value": "Blue Jeans"
+            }, {
+                "name": "Custom Field 12",
+                "value": "Special Order"
+            }]
+        }, {
+            "email_addresses": [
+                "user3@example.com"
+            ],
+            "first_name": "Pradeep",
+            "last_name": "Patel",
+            "job_title": "",
+            "company_name": "Acme Movers",
+            "home_phone": "5555551214"
+        }],
+        "lists": [
+            "4",
+            "5",
+            "6"
+        ],
+        "column_names": [
+            "EMAIL",
+            "FIRST NAME",
+            "LAST NAME",
+            "ADDRESS LINE 1",
+            "ADDRESS LINE 2",
+            "CITY",
+            "STATE",
+            "COUNTRY",
+            "Zip/Postal Code",
+            "JOB TITLE",
+            "COMPANY NAME",
+            "HOME PHONE",
+            "Custom Field 6",
+            "Custom Field 12"
+        ]
+    }
+
