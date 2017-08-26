@@ -43,7 +43,7 @@ public class RestServiceClientCaller {
 			
 			Response ccRestResponse = webTarget.request(MediaType.APPLICATION_JSON).headers(buildHeader(accessToken)).post(Entity.json(pathParams));
 			
-			if(null!= ccRestResponse && Status.OK.getStatusCode() ==ccRestResponse.getStatus()){
+			if(null!= ccRestResponse && Status.CREATED.getStatusCode() ==ccRestResponse.getStatus()){
 				response = ccRestResponse.readEntity(responseType);
 			}else{
 				String error = "Status="+ccRestResponse.getStatus()+" with error="+ccRestResponse.readEntity(String.class);
