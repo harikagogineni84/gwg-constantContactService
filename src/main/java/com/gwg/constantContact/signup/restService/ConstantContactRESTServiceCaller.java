@@ -10,12 +10,15 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gwg.constantContact.signup.ResponseEncrypter;
 
 @Service
 public class ConstantContactRESTServiceCaller {
 	private static final Logger logger = LogManager.getLogger(ConstantContactRESTServiceCaller.class);
 	@Resource private ObjectMapper mapper;
 	@Resource private RestServiceClientCaller restServiceCaller;
+	@Resource private CCAuthenticationProperties authenticationProperties;
+
 	
 	public String pushBulkContactsIntoConstantContact(String pushBulkContacts) throws Exception{
 		String response;
@@ -31,6 +34,10 @@ public class ConstantContactRESTServiceCaller {
 			RestServiceErrorHandler errorHandler = new RestServiceErrorHandler();
 			RestServiceError error = errorHandler.processException(exception);
 			response = errorHandler.convertToJSONResponse(error);
+		}
+		
+		if(authenticationProperties.getShouldEncryptResponse()){
+			response = ResponseEncrypter.encrypt(response, authenticationProperties.getPrivateApiKey());
 		}
 			return response;
 	}

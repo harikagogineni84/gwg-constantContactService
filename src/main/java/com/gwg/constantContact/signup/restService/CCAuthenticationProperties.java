@@ -13,6 +13,7 @@ public class CCAuthenticationProperties {
 	private String publicApiKey;
 	private String privateApiKey;
 	private String accessToken;
+	private Boolean shouldEncryptResponse;
 
 
 	public String getAccessToken() {
@@ -31,11 +32,19 @@ public class CCAuthenticationProperties {
 		this.publicApiKey = publicApiKey;
 	}
 	
-	public String setPrivateApiKey() {
+	public String getPrivateApiKey() {
 		return privateApiKey;
 	}
 
-	public void setPrivateApiKey(String accessToken) {
+	public void setPrivateApiKey(String privateApiKey) {
 		this.privateApiKey = privateApiKey;
+	}
+	
+	public Boolean getShouldEncryptResponse() {
+		return shouldEncryptResponse;
+	}
+
+	public void getShouldEncryptResponse(Boolean shouldEncryptResponse) {
+		this.shouldEncryptResponse = shouldEncryptResponse;
 	}
 }
