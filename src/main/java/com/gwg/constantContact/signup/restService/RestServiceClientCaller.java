@@ -53,7 +53,26 @@ public class RestServiceClientCaller {
 		    return response;
 	}
 
+	public <T> T get(GenericType<T> responseType,String serviceAddress, String accessToken) throws Exception {
+		   logger.error("started executing a post service with operation :-"+serviceAddress);
+		   T response = null;
+		   Client client = ClientBuilder.newClient(new ClientConfig().register(LoggingFilter.class));
+			WebTarget webTarget = client.target(BASE_URI).path(serviceAddress)
+														.queryParam("api_key", authenticationProperties.getPublicApiKey());
 
+			Response ccRestResponse = webTarget.request(MediaType.APPLICATION_JSON).headers(buildHeader(accessToken)).get();
+			
+			if(null!= ccRestResponse && Status.CREATED.getStatusCode() ==ccRestResponse.getStatus()){
+				response = ccRestResponse.readEntity(responseType);
+			}else{
+				String error = "Status="+ccRestResponse.getStatus()+" with error="+ccRestResponse.readEntity(String.class);
+				throw new Exception(error);
+			}
+		
+		    return response;
+	}
+	
+	
 	private MultivaluedMap<String, Object> buildHeader(String accessToken) {
 		MultivaluedMap<String, Object> header = new MultivaluedHashMap<String, Object>();
 		List<Object> headerValue = new ArrayList<>();

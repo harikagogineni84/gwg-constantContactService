@@ -14,7 +14,11 @@ public class RestServiceErrorHandler {
 		error.setErrorText("System Error Occurred.");
 		
 		if(error.getMasheryMessage().contains(""+ HttpStatus.NOT_FOUND.value())) {
-			error.setErrorText("An account with the requested Parameters could not be found.");
+			if(null != exception.getMessage()){
+				error.setErrorText(exception.getMessage());
+			}else{
+				error.setErrorText("An account with the requested Parameters could not be found.");
+			}
 		}
 		
 		if(error.getMasheryMessage().contains(""+ HttpStatus.FORBIDDEN.value())) {

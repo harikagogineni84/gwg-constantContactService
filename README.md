@@ -104,11 +104,11 @@ The project also needs to be configured, or you will not be able to pass any dat
             "company_name": "Acme Movers",
             "home_phone": "5555551214"
         }],
-        "lists": [
-            "4",
-            "5",
-            "6"
-        ],
+        "contactNames": [ //contact list names to which the above contact needs to be added??
+                    "example1",
+                    "example2",
+                    "example3"
+                ],
         "column_names": [
             "EMAIL",
             "FIRST NAME",
