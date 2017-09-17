@@ -83,7 +83,7 @@ public class ConstantContactRESTServiceCaller {
 	
 	private CContactListResponse getContactListCollection(String accessToken) throws Exception{
 		logger.info("retrieving contactInformation:-");
-		return restServiceCaller.get(new GenericType<>(CContactListResponse.class), "v2/lists",accessToken);
+		return restServiceCaller.get(new GenericType<>(CContactListResponse.class), "lists",accessToken);
 	}
 	
 	
