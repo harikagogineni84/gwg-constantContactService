@@ -1,5 +1,5 @@
 package com.gwg.constantContact.signup.restService;
-
+@Deprecated
 public class RestServiceError {
 	
 	public String masheryMessage;

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gwg.constantContact.signup.restService.ConstantContactRESTServiceCaller;
-import com.gwg.constantContact.signup.restService.RestServiceError;
 import com.gwg.constantContact.signup.restService.RestServiceErrorHandler;
 
 
@@ -30,9 +29,8 @@ public class SignupService {
 	
 	
 	@ExceptionHandler
-	public String handleException(Exception exception){
+	public String handleException(Exception exception) throws Exception{
 		RestServiceErrorHandler errorHandler = new RestServiceErrorHandler();
-		RestServiceError error = errorHandler.processException(exception);
-		return errorHandler.convertToJSONResponse(error);
+		return errorHandler.processException(exception);
 	}
 }
