@@ -8,6 +8,10 @@ public class ContactInformationResponse {
 	private String name;
 	private String status;
 	
+	public ContactInformationResponse(){
+		
+	}
+	
 	public String getId() {
 		return id;
 	}

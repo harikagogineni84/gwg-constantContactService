@@ -10,7 +10,6 @@ import javax.ws.rs.core.GenericType;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -40,6 +39,7 @@ public class ConstantContactRESTServiceCaller {
 		JsonNode pushBulkContactsJsonNode = mapper.readTree(pushBulkContacts);
 		
 		String accessToken = pushBulkContactsJsonNode.path("accessToken").toString();
+		accessToken = accessToken.replaceAll("^\"|\"$", "");
 		CContactListResponse constantContactListByAccessToken = getContactListCollection(accessToken);
 			
 		List<String> contactIds = retrieveContactIds(pushBulkContactsJsonNode, constantContactListByAccessToken);
@@ -71,7 +71,7 @@ public class ConstantContactRESTServiceCaller {
 		List<String> contactNames = new ObjectMapper().readValue(getNestedValueFromJSONString(pushBulkContactsJsonNode, "/bulkImportContacts/contactNames"), new TypeReference<List<String>>() {});
 		List<String> lists =  Lists.newArrayList();
 		
-		if(null != constantContactListByAccessToken  && !CollectionUtils.isEmpty(constantContactListByAccessToken.getContactList()))
+		if(null != constantContactListByAccessToken /* && !CollectionUtils.isEmpty(constantContactListByAccessToken.getContactList())*/)
 			for (ContactInformationResponse contact : constantContactListByAccessToken.getContactList()) {
 				if(contactNames.contains(contact.getName())){
 					lists.add(contact.getId());
