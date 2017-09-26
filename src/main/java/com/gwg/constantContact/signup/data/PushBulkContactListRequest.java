@@ -1,28 +1,19 @@
 package com.gwg.constantContact.signup.data;
 
 public class PushBulkContactListRequest {
-	private String import_data;
-	private String lists;
-	private String column_names;
-
-	public String getImport_data() {
-		return import_data;
+	private String accessToken;
+	private ImportBulkContact bulkImportContacts;
+	
+	public String getAccessToken() {
+		return accessToken;
 	}
-	public void setImport_data(String import_data) {
-		this.import_data = import_data;
+	public void setAccessToken(String accessToken) {
+		this.accessToken = accessToken;
 	}
-	public String getLists() {
-		return lists;
+	public ImportBulkContact getBulkImportContacts() {
+		return bulkImportContacts;
 	}
-	public void setLists(String lists) {
-		this.lists = lists;
+	public void setBulkImportContacts(ImportBulkContact bulkImportContacts) {
+		this.bulkImportContacts = bulkImportContacts;
 	}
-	public String getColumn_names() {
-		return column_names;
-	}
-	public void setColumn_names(String column_names) {
-		this.column_names = column_names;
-	}
-
-
 }

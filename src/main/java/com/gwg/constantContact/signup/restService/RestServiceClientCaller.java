@@ -33,7 +33,7 @@ public class RestServiceClientCaller {
 	
 	public <T> T post(GenericType<T> responseType,String serviceAddress, String pathParams, String accessToken) throws Exception{
 		   T response = null;
-		   logger.error("started executing a post service with operation :-"+serviceAddress);
+		   logger.info("started executing a post service with operation :-"+serviceAddress);
 			Client client = ClientBuilder.newClient(new ClientConfig().register(LoggingFilter.class));
 			WebTarget webTarget = client.target(BASE_URI).path(serviceAddress).queryParam("api_key", authenticationProperties.getPublicApiKey());
 
@@ -54,7 +54,7 @@ public class RestServiceClientCaller {
 	}
 
 	public <T> T get(GenericType<T> responseType,String serviceAddress, String accessToken) throws Exception {
-		   logger.error("started executing a post service with operation :-"+serviceAddress);
+		   logger.info("started executing a post service with operation :-"+serviceAddress);
 		   T response = null;
 		   Client client = ClientBuilder.newClient(new ClientConfig().register(LoggingFilter.class));
 			WebTarget webTarget = client.target(BASE_URI).path(serviceAddress)

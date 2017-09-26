@@ -10,6 +10,7 @@ import javax.ws.rs.core.GenericType;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -18,7 +19,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gwg.constantContact.signup.ResponseEncrypter;
-import com.gwg.constantContact.signup.data.CContactListResponse;
+import com.gwg.constantContact.signup.data.ConstantContactBulkImports;
 import com.gwg.constantContact.signup.data.ContactInformationResponse;
 import com.gwg.constantContact.signup.data.PushBulkContactListRequest;
 
@@ -40,11 +41,11 @@ public class ConstantContactRESTServiceCaller {
 		
 		String accessToken = pushBulkContactsJsonNode.path("accessToken").toString();
 		accessToken = accessToken.replaceAll("^\"|\"$", "");
-		CContactListResponse constantContactListByAccessToken = getContactListCollection(accessToken);
+		List<ContactInformationResponse> constantContactListByAccessToken = getContactListCollection(accessToken);
 			
 		List<String> contactIds = retrieveContactIds(pushBulkContactsJsonNode, constantContactListByAccessToken);
-		PushBulkContactListRequest pushBulkContactRequest = buildPushBulkContactRequest(pushBulkContactsJsonNode, contactIds);
-		String signupInfo = new ObjectMapper().writeValueAsString(pushBulkContactRequest);
+		ConstantContactBulkImports bulkContacts = buildPushBulkContactRequest(pushBulkContacts, contactIds);
+		String signupInfo = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(bulkContacts);
 		response  = restServiceCaller.post(new GenericType<>(String.class), "activities/addcontacts", signupInfo, accessToken);
 
 		if(authenticationProperties.getShouldEncryptResponse()){
@@ -58,32 +59,33 @@ public class ConstantContactRESTServiceCaller {
 	}
 	
 
-	private PushBulkContactListRequest buildPushBulkContactRequest(JsonNode pushBulkContactsJsonNode, List<String> contactIds) throws Exception {
-		PushBulkContactListRequest request= new PushBulkContactListRequest();
-		request.setImport_data(getNestedValueFromJSONString(pushBulkContactsJsonNode, "/bulkImportContacts/import_data"));
-		request.setColumn_names(getNestedValueFromJSONString(pushBulkContactsJsonNode, "/bulkImportContacts/column_names"));
-		request.setLists(contactIds.toString());
+	private ConstantContactBulkImports buildPushBulkContactRequest(String pushBulkContacts, List<String> contactIds) throws Exception {
+		ObjectMapper mapper = new ObjectMapper();
+		PushBulkContactListRequest import_data = mapper.readValue(pushBulkContacts, new TypeReference<PushBulkContactListRequest>() {});
+		ConstantContactBulkImports request= new ConstantContactBulkImports();
+		request.setImport_data(import_data.getBulkImportContacts().getImport_data());
+		request.setColumn_names(import_data.getBulkImportContacts().getColumn_names());
+		request.setLists(contactIds);
 		return request;
 	}
-
-
-	private List<String> retrieveContactIds(JsonNode pushBulkContactsJsonNode, CContactListResponse constantContactListByAccessToken) throws JsonParseException, JsonMappingException, JsonProcessingException, IOException {
+	
+	private List<String> retrieveContactIds(JsonNode pushBulkContactsJsonNode, List<ContactInformationResponse> constantContactListByAccessToken) throws JsonParseException, JsonMappingException, JsonProcessingException, IOException {
 		List<String> contactNames = new ObjectMapper().readValue(getNestedValueFromJSONString(pushBulkContactsJsonNode, "/bulkImportContacts/contactNames"), new TypeReference<List<String>>() {});
 		List<String> lists =  Lists.newArrayList();
 		
-		if(null != constantContactListByAccessToken /* && !CollectionUtils.isEmpty(constantContactListByAccessToken.getContactList())*/)
-			for (ContactInformationResponse contact : constantContactListByAccessToken.getContactList()) {
+		if(!CollectionUtils.isEmpty(constantContactListByAccessToken)){
+			for (ContactInformationResponse contact : constantContactListByAccessToken) {
 				if(contactNames.contains(contact.getName())){
 					lists.add(contact.getId());
 				}
 			}
+		}	
 		return lists;
 	}
-	
-	
-	private CContactListResponse getContactListCollection(String accessToken) throws Exception{
+
+	private List<ContactInformationResponse> getContactListCollection(String accessToken) throws Exception{
 		logger.info("retrieving contactInformation:-");
-		return restServiceCaller.get(new GenericType<>(CContactListResponse.class), "lists",accessToken);
+		return restServiceCaller.get(new GenericType<List<ContactInformationResponse>>(){}, "lists",accessToken);
 	}
 	
 	
