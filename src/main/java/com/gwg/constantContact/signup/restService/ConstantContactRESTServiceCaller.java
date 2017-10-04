@@ -48,9 +48,9 @@ public class ConstantContactRESTServiceCaller {
 		String signupInfo = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(bulkContacts);
 		response  = restServiceCaller.post(new GenericType<>(String.class), "activities/addcontacts", signupInfo, accessToken);
 
-		if(authenticationProperties.getShouldEncryptResponse()){
-			response = ResponseEncrypter.encrypt(response, authenticationProperties.getPrivateApiKey());
-		}
+//		if(authenticationProperties.getShouldEncryptResponse()){
+//			response = ResponseEncrypter.encrypt(response, authenticationProperties.getPrivateApiKey());
+//		}
 			return response;
 	}
 	
