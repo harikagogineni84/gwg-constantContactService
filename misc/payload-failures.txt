@@ -1,0 +1,31 @@
+
+{
+"accessToken": "xxx",
+"bulkContacts": {
+    "import_data": [{
+        "email_addresses": [
+            "rwright@g.org"
+        ],
+        "first_name": "R",
+        "last_name": "Wright",
+        "company_name": "G group"
+    }],
+    "contactNames": [
+                "June OneNote Class"
+            ],
+    "column_names": [
+        "EMAIL",
+        "FIRST NAME",
+        "LAST NAME",
+       "ADDRESS LINE 1",
+        "ADDRESS LINE 2",
+        "CITY",
+        "STATE",
+        "COUNTRY",
+        "Zip/Postal Code",
+        "JOB TITLE",
+        "COMPANY NAME",
+        "HOME PHONE"
+    ]
+}
+}
