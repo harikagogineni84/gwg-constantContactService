@@ -31,8 +31,8 @@ The project also needs to be configured, or you will not be able to pass any dat
 ### Request input
 
     {
-    accessToken: "accessToken",
-    bulkContacts: {<input as needed by constant contact bulk imports api>}
+      "accessToken": "accessToken",
+      "bulkImportContacts": {<input as needed by constant contact bulk imports api>}
     }          
 
 ### Response returned
