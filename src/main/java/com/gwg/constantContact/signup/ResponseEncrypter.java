@@ -9,15 +9,16 @@ import javax.crypto.spec.SecretKeySpec;
 public class ResponseEncrypter {
 
 	
-	public static final String ALGORITHM = "RSA";
+	public static final String ALGORITHM = "Blowfish";
+	public static final String ENCODE = "UTF8";
 	
 	public static String encrypt(String response, String privateKey) {
 	
 		try {
-			SecretKeySpec keySpec = new SecretKeySpec(privateKey.getBytes(), "Blowfish");
-			Cipher cipher = Cipher.getInstance("Blowfish");
+			SecretKeySpec keySpec = new SecretKeySpec(privateKey.getBytes(ENCODE), ALGORITHM);
+			Cipher cipher = Cipher.getInstance(ALGORITHM);
 			cipher.init(Cipher.ENCRYPT_MODE,keySpec);
-			byte[] encrypted = cipher.doFinal(response.getBytes("UTF8"));
+			byte[] encrypted = cipher.doFinal(response.getBytes(ENCODE));
 			response = new String(encrypted);
 		} catch (Exception e){
 			e.printStackTrace();
@@ -25,17 +26,22 @@ public class ResponseEncrypter {
 		
 		return response;
 	}
+	
+	public static String decrypt(String payloadHash, String privateKey) {
+		
+		//TODO: implementation entirely subject to change depending on what GWG would like to send us
+		//TODO: this implementation is symmetric if it meets the organization's needs.
+		
+		try {
+			SecretKeySpec keySpec = new SecretKeySpec(privateKey.getBytes(ENCODE), ALGORITHM);
+			Cipher cipher = Cipher.getInstance(ALGORITHM);
+			cipher.init(Cipher.DECRYPT_MODE, keySpec);
+			byte[] decryptedMessage = cipher.doFinal(payloadHash.getBytes(ENCODE));
+			payloadHash = new String(decryptedMessage);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return payloadHash;
+	}
 }
-//byte[] cipherText = null;
-//byte[] decodedKey = Base64.getDecoder().decode(privateKey);
-//Key key = new SecretKeySpec(decodedKey,0,decodedKey.length, "RSA");
-//try {
-//  final Cipher cipher = Cipher.getInstance(ALGORITHM);
-//  cipher.init(Cipher.ENCRYPT_MODE, key);
-//  cipherText = cipher.doFinal(response.getBytes());
-//} catch (Exception e) {
-//  e.printStackTrace();
-//}
-//
-//response = cipherText.toString();
-//return response;
