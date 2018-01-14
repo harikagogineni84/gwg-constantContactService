@@ -19,7 +19,7 @@ public class ResponseEncrypter {
 			Cipher cipher = Cipher.getInstance(ALGORITHM);
 			cipher.init(Cipher.ENCRYPT_MODE,keySpec);
 			byte[] encrypted = cipher.doFinal(response.getBytes(ENCODE));
-			response = new String(encrypted);
+			response = Base64.getEncoder().encodeToString(encrypted);
 		} catch (Exception e){
 			e.printStackTrace();
 		}
@@ -35,8 +35,8 @@ public class ResponseEncrypter {
 		try {
 			SecretKeySpec keySpec = new SecretKeySpec(privateKey.getBytes(ENCODE), ALGORITHM);
 			Cipher cipher = Cipher.getInstance(ALGORITHM);
-			cipher.init(Cipher.DECRYPT_MODE, keySpec);
-			byte[] decryptedMessage = cipher.doFinal(payloadHash.getBytes(ENCODE));
+			cipher.init(Cipher.DECRYPT_MODE, keySpec);			
+			byte[] decryptedMessage = cipher.doFinal((Base64.getDecoder().decode(payloadHash)));
 			payloadHash = new String(decryptedMessage);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -44,4 +44,5 @@ public class ResponseEncrypter {
 		
 		return payloadHash;
 	}
+	
 }
